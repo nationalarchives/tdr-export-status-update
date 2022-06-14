@@ -13,6 +13,8 @@ jobs:
     with:
       repo-name: tdr-export-status-update
       test-command: |
+        sbt scalastyle
+        sbt test:scalastyle
         sbt test
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
