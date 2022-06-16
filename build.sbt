@@ -1,4 +1,4 @@
-import Dependencies.{catsEffect, scalaTest, _}
+import Dependencies._
 
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
@@ -14,17 +14,12 @@ lazy val root = (project in file("."))
         authUtils,
         awsLambda,
         awsUtils,
-        catsEffect,
         circeCore,
         circeParser,
         typeSafeConfig,
         generatedGraphql,
         graphqlClient,
-        keycloakCore,
-        keycloakAdminClient,
         mockito % Test,
-        pureConfig,
-        pureConfigCatsEffect,
         scalaTest % Test,
         wiremock % Test
       )
