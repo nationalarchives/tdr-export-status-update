@@ -27,8 +27,12 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
 
   val configFactory: Config = ConfigFactory.load
 
+  val clientSecret: String = configFactory.getString("auth.clientSecret")
+  val authUrl: String = configFactory.getString("auth.url")
+  val timeToLiveInSeconds: Int = 3600
+
   implicit val backend: SttpBackend[Identity, Any] = HttpURLConnectionBackend()
-  implicit val tdrKeycloakDeployment: TdrKeycloakDeployment = TdrKeycloakDeployment(configFactory.getString("auth.url"), "tdr", 3600)
+  implicit val tdrKeycloakDeployment: TdrKeycloakDeployment = TdrKeycloakDeployment(authUrl, "tdr", timeToLiveInSeconds)
 
   "The updateExportStatus method" should "request a service account token" in {
     val keycloakUtils = mock[KeycloakUtils]
@@ -58,7 +62,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
       )
     )
 
-    graphQlApi.updateExportStatus(consignmentId, statusValue, configFactory.getString("auth.clientSecret")).futureValue
+    graphQlApi.updateExportStatus(consignmentId, statusValue, clientSecret).futureValue
 
     val expectedId = "tdr-backend-checks"
     val expectedSecret = "c2VjcmV0"
@@ -90,7 +94,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
           )
         )
       )
-    graphQlApi.updateExportStatus(consignmentId, statusValue, configFactory.getString("auth.clientSecret")).futureValue
+    graphQlApi.updateExportStatus(consignmentId, statusValue, clientSecret).futureValue
 
     verify(client).getResult[Identity](new BearerAccessToken("token"), document, Some(variables))
   }
@@ -106,7 +110,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
       .thenThrow(HttpError("An error occurred contacting the auth server", StatusCode.InternalServerError))
 
     val exception = intercept[HttpError[String]] {
-      GraphQlApi(keycloakUtils, client).updateExportStatus(consignmentId, statusValue, configFactory.getString("auth.clientSecret")).futureValue
+      GraphQlApi(keycloakUtils, client).updateExportStatus(consignmentId, statusValue, clientSecret).futureValue
     }
     exception.body should equal("An error occurred contacting the auth server")
   }
@@ -130,7 +134,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
     val res = GraphQlApi(keycloakUtils, client).updateExportStatus(
       consignmentId,
       statusValue,
-      configFactory.getString("auth.clientSecret")
+      clientSecret
     ).failed.futureValue
 
     res.getMessage shouldEqual "Unexpected response from GraphQL API: Response(Left(Graphql error),503,,List(),List(),RequestMetadata(GET,http://example.com,List()))"
@@ -167,7 +171,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
     val res = GraphQlApi(keycloakUtils, client).updateExportStatus(
       consignmentId,
       statusValue,
-      configFactory.getString("auth.clientSecret")
+      clientSecret
     ).failed.futureValue
 
     res.getMessage should include("Not authorised message")
@@ -202,7 +206,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
     val res = GraphQlApi(keycloakUtils, client).updateExportStatus(
       consignmentId,
       statusValue,
-      configFactory.getString("auth.clientSecret")
+      clientSecret
     ).failed.futureValue
     res.getMessage shouldEqual "GraphQL response contained errors: General error"
   }

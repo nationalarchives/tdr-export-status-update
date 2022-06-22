@@ -22,15 +22,18 @@ import scala.io.Source
 
 class Lambda extends RequestStreamHandler {
   val configFactory: TypeSafeConfig = ConfigFactory.load
+  val authUrl: String = configFactory.getString("auth.url")
+  val apiUrl: String = configFactory.getString("api.url")
+  val timeToLiveInSecs: Int = 60
+
   implicit val backend: SttpBackend[Identity, Any] = HttpURLConnectionBackend()
   implicit val keycloakDeployment: TdrKeycloakDeployment = TdrKeycloakDeployment(
-    configFactory.getString("auth.url"),
+    authUrl,
     "tdr",
-    60
+    timeToLiveInSecs
   )
 
   val keycloakUtils = new KeycloakUtils()
-  val apiUrl: String = configFactory.getString("api.url")
   val updateConsignmentStatusClient = new GraphQLClient[ucs.Data, ucs.Variables](apiUrl)
   val graphQlApi: GraphQlApi = GraphQlApi(keycloakUtils, updateConsignmentStatusClient)
 

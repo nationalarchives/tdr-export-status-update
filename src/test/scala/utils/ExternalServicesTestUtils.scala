@@ -9,9 +9,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
 class ExternalServicesTestUtils extends AnyFlatSpec {
+  val graphQlServerPort = 9001
+  val authServerPort = 9002
 
-  val wiremockGraphqlServer = new WireMockServer(9001)
-  val wiremockAuthServer = new WireMockServer(9002)
+  val wiremockGraphqlServer = new WireMockServer(graphQlServerPort)
+  val wiremockAuthServer = new WireMockServer(authServerPort)
 
   def getInputStream(consignmentId: String): ByteArrayInputStream = {
     val input =

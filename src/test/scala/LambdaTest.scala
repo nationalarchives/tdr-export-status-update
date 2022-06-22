@@ -21,7 +21,9 @@ import scala.reflect.ClassTag
 class LambdaTest extends ExternalServicesTestUtils with MockitoSugar with EitherValues {
 
   class LambdaMock(mockUcsClient: GraphQLClient[Data, ucs.Variables], mockKeycloakUtils: KeycloakUtils) extends Lambda {
-    implicit val tdrKeycloakDeployment: TdrKeycloakDeployment = TdrKeycloakDeployment(configFactory.getString("auth.url"), "tdr", 3600)
+    override val authUrl: String = configFactory.getString("auth.url")
+    override val timeToLiveInSecs: Int = 3600
+    implicit val tdrKeycloakDeployment: TdrKeycloakDeployment = TdrKeycloakDeployment(authUrl, "tdr", timeToLiveInSecs)
     override val updateConsignmentStatusClient: GraphQLClient[Data, ucs.Variables] = mockUcsClient
     override val keycloakUtils: KeycloakUtils = mockKeycloakUtils
     override val graphQlApi: GraphQlApi = GraphQlApi(keycloakUtils, updateConsignmentStatusClient)
