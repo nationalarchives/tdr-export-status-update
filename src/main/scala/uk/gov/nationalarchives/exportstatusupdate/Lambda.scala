@@ -57,7 +57,6 @@ class Lambda extends RequestStreamHandler {
   private def setStatusToFailed(consignmentId: UUID, secret: String): Future[ucs.Data] = {
     graphQlApi.updateExportStatus(consignmentId, "Failed", secret)
   }
-
 }
 
 object Lambda {

@@ -23,7 +23,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 
-
 class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with EitherValues {
 
   val configFactory: Config = ConfigFactory.load

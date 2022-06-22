@@ -12,7 +12,6 @@ import uk.gov.nationalarchives.tdr.{GraphQLClient, GraphQlResponse}
 import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future}
 
-
 class GraphQlApi(val keycloak: KeycloakUtils,
                  updateConsignmentStatusClient: GraphQLClient[ucs.Data, ucs.Variables])(
                   implicit val logger: Logger,
