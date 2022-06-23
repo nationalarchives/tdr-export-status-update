@@ -26,7 +26,6 @@ import scala.reflect.ClassTag
 class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with EitherValues {
 
   val configFactory: Config = ConfigFactory.load
-
   val clientSecret: String = configFactory.getString("auth.clientSecret")
   val authUrl: String = configFactory.getString("auth.url")
   val timeToLiveInSeconds: Int = 3600
@@ -82,10 +81,17 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
 
     when(
       keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
-        any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]], any[TdrKeycloakDeployment]
+        any[SttpBackend[Identity, Any]],
+        any[ClassTag[Identity[_]]],
+        any[TdrKeycloakDeployment]
       )
     ).thenReturn(Future.successful(new BearerAccessToken("token")))
-    when(client.getResult[Identity](any[BearerAccessToken], any[Document], any[Option[ucs.Variables]])(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]]))
+    when(
+      client.getResult[Identity](
+        any[BearerAccessToken],
+        any[Document],
+        any[Option[ucs.Variables]]
+      )(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]]))
       .thenReturn(
         Future.successful(
           GraphQlResponse(
@@ -105,9 +111,15 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
     val consignmentId = UUID.fromString("c2efd3e6-6664-4582-8c28-dcf891f60e68")
     val statusValue = "Failed"
 
-    when(keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
-      any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]], any[TdrKeycloakDeployment]))
-      .thenThrow(HttpError("An error occurred contacting the auth server", StatusCode.InternalServerError))
+    when(
+      keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
+      any[SttpBackend[Identity, Any]],
+      any[ClassTag[Identity[_]]],
+      any[TdrKeycloakDeployment]
+      )
+    ).thenThrow(
+      HttpError("An error occurred contacting the auth server", StatusCode.InternalServerError)
+    )
 
     val exception = intercept[HttpError[String]] {
       GraphQlApi(keycloakUtils, client).updateExportStatus(consignmentId, statusValue, clientSecret).futureValue
@@ -116,7 +128,6 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
   }
 
   "The updateExportStatus method" should "error if the graphql server is unavailable" in {
-
     val client = mock[GraphQLClient[ucs.Data, ucs.Variables]]
     val keycloakUtils = mock[KeycloakUtils]
     val consignmentId = UUID.fromString("c2efd3e6-6664-4582-8c28-dcf891f60e68")
@@ -126,10 +137,18 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
 
     val response = Response(body, StatusCode.ServiceUnavailable)
 
-    when(keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
-      any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]], any[TdrKeycloakDeployment]))
-      .thenReturn(Future.successful(new BearerAccessToken("token")))
-    when(client.getResult[Identity](any[BearerAccessToken], any[Document], any[Option[ucs.Variables]])(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]])).thenThrow(new HttpException(response))
+    when(
+      keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
+      any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]], any[TdrKeycloakDeployment]
+      )
+    ).thenReturn(Future.successful(new BearerAccessToken("token")))
+    when(
+      client.getResult[Identity](
+        any[BearerAccessToken],
+        any[Document],
+        any[Option[ucs.Variables]]
+      )(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]])
+    ).thenThrow(new HttpException(response))
 
     val res = GraphQlApi(keycloakUtils, client).updateExportStatus(
       consignmentId,
@@ -137,7 +156,8 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
       clientSecret
     ).failed.futureValue
 
-    res.getMessage shouldEqual "Unexpected response from GraphQL API: Response(Left(Graphql error),503,,List(),List(),RequestMetadata(GET,http://example.com,List()))"
+    res.getMessage shouldEqual "Unexpected response from GraphQL API: " +
+      "Response(Left(Graphql error),503,,List(),List(),RequestMetadata(GET,http://example.com,List()))"
   }
 
   "The updateExportStatus method" should "error if the graphql query returns not authorised errors" in {
@@ -146,9 +166,13 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
     val consignmentId = UUID.fromString("c2efd3e6-6664-4582-8c28-dcf891f60e68")
     val statusValue = "Failed"
 
-    when(keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
-      any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]], any[TdrKeycloakDeployment]))
-      .thenReturn(Future.successful(new BearerAccessToken("token")))
+    when(
+      keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
+      any[SttpBackend[Identity, Any]],
+      any[ClassTag[Identity[_]]],
+      any[TdrKeycloakDeployment])
+    ).thenReturn(Future.successful(new BearerAccessToken("token")))
+
     val graphqlResponse: GraphQlResponse[Data] =
       GraphQlResponse(
         Option.empty,
@@ -165,8 +189,14 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
           )
         )
       )
-    when(client.getResult[Identity](any[BearerAccessToken], any[Document], any[Option[ucs.Variables]])(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]]))
-      .thenReturn(Future.successful(graphqlResponse))
+
+    when(
+      client.getResult[Identity](
+        any[BearerAccessToken],
+        any[Document],
+        any[Option[ucs.Variables]]
+      )(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]])
+    ).thenReturn(Future.successful(graphqlResponse))
 
     val res = GraphQlApi(keycloakUtils, client).updateExportStatus(
       consignmentId,
@@ -200,8 +230,14 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
           )
         )
       )
-    when(client.getResult[Identity](any[BearerAccessToken], any[Document], any[Option[ucs.Variables]])(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]]))
-      .thenReturn(Future.successful(graphqlResponse))
+
+    when(
+      client.getResult[Identity](
+        any[BearerAccessToken],
+        any[Document],
+        any[Option[ucs.Variables]]
+      )(any[SttpBackend[Identity, Any]], any[ClassTag[Identity[_]]])
+    ).thenReturn(Future.successful(graphqlResponse))
 
     val res = GraphQlApi(keycloakUtils, client).updateExportStatus(
       consignmentId,
