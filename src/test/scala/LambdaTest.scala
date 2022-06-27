@@ -17,7 +17,6 @@ import java.util.UUID
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 
-
 class LambdaTest extends ExternalServicesTestUtils with MockitoSugar with EitherValues {
 
   class LambdaMock(mockUcsClient: GraphQLClient[Data, ucs.Variables], mockKeycloakUtils: KeycloakUtils) extends Lambda {
