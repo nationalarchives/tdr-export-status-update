@@ -28,7 +28,7 @@ class LambdaTest extends ExternalServicesTestUtils with MockitoSugar with Either
     override val graphQlApi: GraphQlApi = GraphQlApi(keycloakUtils, updateConsignmentStatusClient)
   }
 
-  "The handleRequest method" should "doesn't throw an exception, given a correctly formatted consignmentId" in {
+  "The handleRequest method" should "not throw an exception, given a correctly formatted consignmentId" in {
     val consignmentId = UUID.randomUUID()
     val inputStream = getInputStream(consignmentId.toString)
 
@@ -67,7 +67,7 @@ class LambdaTest extends ExternalServicesTestUtils with MockitoSugar with Either
       .handleRequest(inputStream, mock[ByteArrayOutputStream], null)
   }
 
-  "The handleRequest method" should "throws an exception, given an incorrectly formatted consignmentId" in {
+  "The handleRequest method" should "throw an exception, given an incorrectly formatted consignmentId" in {
     val inputStream = getInputStream("not a UUID")
 
     val mockUcsClient = mock[GraphQLClient[ucs.Data, ucs.Variables]]
