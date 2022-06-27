@@ -14,9 +14,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class GraphQlApi(val keycloak: KeycloakUtils,
                  updateConsignmentStatusClient: GraphQLClient[ucs.Data, ucs.Variables])(
-                  implicit val logger: Logger,
-                  keycloakDeployment: TdrKeycloakDeployment,
-                  backend: SttpBackend[Identity, Any]) {
+                 implicit val logger: Logger,
+                 keycloakDeployment: TdrKeycloakDeployment,
+                 backend: SttpBackend[Identity, Any]) {
 
   implicit class ErrorUtils[D](response: GraphQlResponse[D]) {
     val errorString: String = response.errors.map(_.message).mkString("\n")
