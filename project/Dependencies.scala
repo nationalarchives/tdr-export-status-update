@@ -14,7 +14,7 @@ object Dependencies {
   lazy val circeParser = "io.circe" %% "circe-parser" % circeVersion
   lazy val keycloakCore = "org.keycloak" % "keycloak-core" % keycloakVersion
   lazy val keycloakAdminClient =  "org.keycloak" % "keycloak-admin-client" % keycloakVersion
-  lazy val mockito = "org.mockito" %% "mockito-scala" % "1.17.7"
+  lazy val mockito = "org.mockito" %% "mockito-scala" % "1.17.12"
   lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.2.13"
   lazy val wiremock = "com.github.tomakehurst" % "wiremock-jre8" % "2.33.2"
 }
