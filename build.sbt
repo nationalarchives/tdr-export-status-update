@@ -13,6 +13,7 @@ lazy val root = (project in file("."))
       Seq(
         authUtils,
         awsLambda,
+        awsSsm,
         awsUtils,
         circeCore,
         circeParser,
