@@ -1,3 +1,4 @@
+import com.github.tomakehurst.wiremock.client.WireMock.{equalToJson, postRequestedFor, urlEqualTo}
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken
 import graphql.codegen.UpdateConsignmentStatus.updateConsignmentStatus.Data
 import graphql.codegen.UpdateConsignmentStatus.{updateConsignmentStatus => ucs}
@@ -26,6 +27,48 @@ class LambdaTest extends ExternalServicesTestUtils with MockitoSugar with Either
     override val updateConsignmentStatusClient: GraphQLClient[Data, ucs.Variables] = mockUcsClient
     override val keycloakUtils: KeycloakUtils = mockKeycloakUtils
     override val graphQlApi: GraphQlApi = GraphQlApi(keycloakUtils, updateConsignmentStatusClient)
+  }
+
+  "Creating the lambda class" should "call systems manager with the correct arguments" in {
+    val consignmentId = UUID.randomUUID()
+    val inputStream = getInputStream(consignmentId.toString)
+
+    val mockUcsClient = mock[GraphQLClient[ucs.Data, ucs.Variables]]
+    val mockKeycloakUtils: KeycloakUtils = mock[KeycloakUtils]
+
+    when(
+      mockKeycloakUtils.serviceAccountToken[Identity](
+        any[String],
+        any[String]
+      )(
+        any[SttpBackend[Identity, Any]],
+        any[ClassTag[Identity[_]]],
+        any[TdrKeycloakDeployment]
+      )
+    ).thenReturn(Future.successful(new BearerAccessToken("token")))
+    when(
+      mockUcsClient.getResult[Identity](
+        any[BearerAccessToken],
+        any[Document],
+        any[Option[ucs.Variables]]
+      )(
+        any[SttpBackend[Identity, Any]],
+        any[ClassTag[Identity[_]]]
+      )
+    ).thenReturn(
+      Future.successful(
+        GraphQlResponse(
+          Some(ucs.Data(Some(1))),
+          List()
+        )
+      )
+    )
+
+    new LambdaMock(mockUcsClient, mockKeycloakUtils)
+      .handleRequest(inputStream, mock[ByteArrayOutputStream], null)
+    wiremockSsmServer
+      .verify(postRequestedFor(urlEqualTo("/"))
+        .withRequestBody(equalToJson("""{"Name" : "client/secret/path","WithDecryption" : true}""")))
   }
 
   "The handleRequest method" should "not throw an exception, given a correctly formatted consignmentId" in {
