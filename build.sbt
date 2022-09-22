@@ -2,7 +2,7 @@ import Dependencies._
 
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "2.13.8"
+ThisBuild / scalaVersion := "2.13.9"
 ThisBuild / name := "tdr-export-status-update"
 ThisBuild / organization := "uk.gov.nationalarchives"
 
