@@ -157,7 +157,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
     ).failed.futureValue
 
     res.getMessage shouldEqual "Unexpected response from GraphQL API: " +
-      "Response(Left(Graphql error),503,,List(),List(),RequestMetadata(GET,http://example.com,List()))"
+      "Response(Left(Graphql error),503,Service Unavailable,List(),List(),RequestMetadata(GET,http://example.com,List()))"
   }
 
   "The updateExportStatus method" should "error if the graphql query returns not authorised errors" in {
