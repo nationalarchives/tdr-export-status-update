@@ -17,5 +17,5 @@ object Dependencies {
   lazy val keycloakAdminClient =  "org.keycloak" % "keycloak-admin-client" % keycloakVersion
   lazy val mockito = "org.mockito" %% "mockito-scala" % "1.17.12"
   lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.2.14"
-  lazy val wiremock = "com.github.tomakehurst" % "wiremock-jre8" % "2.34.0"
+  lazy val wiremock = "com.github.tomakehurst" % "wiremock-jre8" % "2.35.0"
 }
