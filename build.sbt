@@ -14,7 +14,6 @@ lazy val root = (project in file("."))
         authUtils,
         awsLambda,
         awsSsm,
-        awsUtils,
         circeCore,
         circeParser,
         typeSafeConfig,
