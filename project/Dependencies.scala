@@ -4,12 +4,12 @@ object Dependencies {
   val circeVersion = "0.14.3"
   private val keycloakVersion = "16.1.0"
 
-  lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.105"
+  lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.106"
   lazy val awsLambda = "com.amazonaws" % "aws-lambda-java-core" % "1.2.2"
-  lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.19.12"
+  lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.19.13"
   lazy val typeSafeConfig = "com.typesafe" % "config" % "1.4.2"
   lazy val generatedGraphql = "uk.gov.nationalarchives" %% "tdr-generated-graphql" % "0.0.295"
-  lazy val graphqlClient = "uk.gov.nationalarchives" %% "tdr-graphql-client" % "0.0.79"
+  lazy val graphqlClient = "uk.gov.nationalarchives" %% "tdr-graphql-client" % "0.0.82"
   lazy val circeCore = "io.circe" %% "circe-core" % circeVersion
   lazy val circeParser = "io.circe" %% "circe-parser" % circeVersion
   lazy val keycloakCore = "org.keycloak" % "keycloak-core" % keycloakVersion
