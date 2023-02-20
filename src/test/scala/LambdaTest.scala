@@ -145,7 +145,7 @@ class LambdaTest extends ExternalServicesTestUtils with MockitoSugar with Either
       }
 
     rtException.getMessage should equal(
-      """DecodingFailure(Got value '"not a UUID"' with wrong type, expecting string, List(DownField(consignmentId)))"""
+      """DecodingFailure at .consignmentId: Got value '"not a UUID"' with wrong type, expecting string"""
     )
   }
 }
