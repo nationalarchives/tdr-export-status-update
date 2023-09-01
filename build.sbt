@@ -21,7 +21,7 @@ lazy val root = (project in file("."))
         graphqlClient,
         mockito % Test,
         scalaTest % Test,
-        wiremock % Test
+        wiremockStandalone % Test
       )
   )
 
