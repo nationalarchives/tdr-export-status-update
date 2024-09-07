@@ -1,7 +1,7 @@
 import sbt._
 
 object Dependencies {
-  val circeVersion = "0.14.9"
+  val circeVersion = "0.14.10"
   private val keycloakVersion = "16.1.0"
 
   lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.212"
