@@ -77,7 +77,7 @@ class GraphQlApiTest extends ExternalServicesTestUtils with MockitoSugar with Ei
 
     val consignmentId = UUID.fromString("c2efd3e6-6664-4582-8c28-dcf891f60e68")
     val statusValue = "Failed"
-    val variables = ucs.Variables(ConsignmentStatusInput(consignmentId, "Export", Some(statusValue)))
+    val variables = ucs.Variables(ConsignmentStatusInput(consignmentId, "Export", Some(statusValue), None))
 
     when(
       keycloakUtils.serviceAccountToken[Identity](any[String], any[String])(
