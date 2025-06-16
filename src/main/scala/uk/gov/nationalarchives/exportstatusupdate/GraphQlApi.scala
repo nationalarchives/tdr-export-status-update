@@ -24,7 +24,7 @@ class GraphQlApi(val keycloak: KeycloakUtils,
 
   def updateExportStatus(consignmentId: UUID, statusValue: String, clientSecret: String)(implicit executionContext: ExecutionContext): Future[ucs.Data] = {
     val configFactory = ConfigFactory.load
-    val consignmentStatusInput = ConsignmentStatusInput(consignmentId, "Export", Some(statusValue))
+    val consignmentStatusInput = ConsignmentStatusInput(consignmentId, "Export", Some(statusValue), None)
     val queryResult: Future[Either[String, GraphQlResponse[ucs.Data]]] = (for {
       token <- keycloak.serviceAccountToken(configFactory.getString("auth.clientId"), clientSecret)
       response <- updateConsignmentStatusClient.getResult(token, ucs.document, Some(ucs.Variables(consignmentStatusInput)))
