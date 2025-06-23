@@ -2,11 +2,11 @@ import sbt._
 
 object Dependencies {
   val circeVersion = "0.14.14"
-  private val keycloakVersion = "16.1.0"
+  private val keycloakVersion = "26.2.5"
 
   lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.248"
   lazy val awsLambda = "com.amazonaws" % "aws-lambda-java-core" % "1.3.0"
-  lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.26.27"
+  lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.31.63"
   lazy val typeSafeConfig = "com.typesafe" % "config" % "1.4.3"
   lazy val graphqlClient = "uk.gov.nationalarchives" %% "tdr-graphql-client" % "0.0.239"
   lazy val generatedGraphql = "uk.gov.nationalarchives" %% "tdr-generated-graphql" % "0.0.417"
