@@ -6,7 +6,7 @@ object Dependencies {
 
   lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.252"
   lazy val awsLambda = "com.amazonaws" % "aws-lambda-java-core" % "1.3.0"
-  lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.32.8"
+  lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.32.12"
   lazy val typeSafeConfig = "com.typesafe" % "config" % "1.4.4"
   lazy val graphqlClient = "uk.gov.nationalarchives" %% "tdr-graphql-client" % "0.0.244"
   lazy val generatedGraphql = "uk.gov.nationalarchives" %% "tdr-generated-graphql" % "0.0.423"
