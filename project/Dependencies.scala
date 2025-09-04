@@ -5,7 +5,7 @@ object Dependencies {
   private val keycloakVersion = "26.2.5"
 
   lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.255"
-  lazy val awsLambda = "com.amazonaws" % "aws-lambda-java-core" % "1.3.0"
+  lazy val awsLambda = "com.amazonaws" % "aws-lambda-java-core" % "1.4.0"
   lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.33.0"
   lazy val typeSafeConfig = "com.typesafe" % "config" % "1.4.4"
   lazy val graphqlClient = "uk.gov.nationalarchives" %% "tdr-graphql-client" % "0.0.250"
