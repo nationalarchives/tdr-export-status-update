@@ -4,7 +4,7 @@ object Dependencies {
   val circeVersion = "0.14.15"
   private val keycloakVersion = "26.2.5"
 
-  lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.265"
+  lazy val authUtils = "uk.gov.nationalarchives" %% "tdr-auth-utils" % "0.0.266"
   lazy val awsLambda = "com.amazonaws" % "aws-lambda-java-core" % "1.4.0"
   lazy val awsSsm = "software.amazon.awssdk" % "ssm" % "2.41.6"
   lazy val typeSafeConfig = "com.typesafe" % "config" % "1.4.5"
