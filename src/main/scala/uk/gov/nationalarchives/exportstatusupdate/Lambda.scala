@@ -6,7 +6,7 @@ import graphql.codegen.UpdateConsignmentStatus.{updateConsignmentStatus => ucs}
 import io.circe
 import io.circe.generic.auto._
 import io.circe.parser.decode
-import software.amazon.awssdk.http.apache.ApacheHttpClient
+import software.amazon.awssdk.http.apache5.Apache5HttpClient
 import software.amazon.awssdk.regions.Region
 import sttp.client3.{HttpURLConnectionBackend, Identity, SttpBackend}
 import uk.gov.nationalarchives.exportstatusupdate.Lambda.LambdaInput
@@ -61,7 +61,7 @@ class Lambda extends RequestStreamHandler {
   }
 
   private def getClientSecret(secretPath: String, endpoint: String): String = {
-    val httpClient = ApacheHttpClient.builder.build
+    val httpClient = Apache5HttpClient.builder.build
     val ssmClient: SsmClient = SsmClient.builder()
       .endpointOverride(URI.create(endpoint))
       .httpClient(httpClient)
