@@ -10,6 +10,7 @@ on:
           - intg
           - staging
           - prod
+          - dev
         default: 'intg'
       to-deploy:
         description: 'Version to deploy'
@@ -22,7 +23,7 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    uses: nationalarchives/tdr-github-actions/.github/workflows/lambda_deploy.yml@e7b57a3bdf7863c951cd203101c6d566986376e3 # v0.0.38
+    uses: nationalarchives/tdr-github-actions/.github/workflows/lambda_deploy.yml@b98899c2acfaf872e0053671743a5b1284b0dab0 # v0.0.43
     with:
       lambda-name: export-status-update
       deployment-package: export-status-update.jar
