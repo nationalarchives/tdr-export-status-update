@@ -14,6 +14,7 @@ jobs:
       lambda-name: export-status-update
       repo-name: tdr-export-status-update
       artifact-name: export-status-update
+      java-version: '17'
       build-command: |
         sbt assembly
     secrets:
