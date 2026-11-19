@@ -14,13 +14,12 @@ jobs:
       lambda-name: export-status-update
       repo-name: tdr-export-status-update
       artifact-name: export-status-update
-      java-version: $JAVA_RUNTIMES
+      java-version: ${{vars.JAVA_RUNTIME}}
       build-command: |
         sbt assembly
     secrets:
       MANAGEMENT_ACCOUNT: ${{ secrets.MANAGEMENT_ACCOUNT }}
       WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
-      JAVA_RUNTIME: ${{ secrets.JAVA_RUNTIME }}
   deploy:
     needs: pre-deploy
     runs-on: ubuntu-latest
